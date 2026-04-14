@@ -1,0 +1,29 @@
+package com.example.transport.entity;
+
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+
+import java.time.LocalDateTime;
+import java.util.List;
+
+@Entity
+@NoArgsConstructor
+@AllArgsConstructor
+public class Passagem {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    private LocalDateTime dataHoraDaCompra;
+    private Integer quantidadeDeAssentos;
+    private  Integer numeroAssentos;
+
+    @ManyToOne
+    private User user;
+    @OneToOne
+    private List<Viagem> viagem;
+    @ManyToOne
+    private Transport transport;
+    @ManyToOne
+    private Compra compra;
+}
