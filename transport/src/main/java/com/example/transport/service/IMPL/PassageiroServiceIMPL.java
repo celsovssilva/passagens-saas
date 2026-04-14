@@ -3,15 +3,19 @@ package com.example.transport.service.IMPL;
 import com.example.transport.entity.Passageiro;
 import com.example.transport.entity.User;
 import com.example.transport.repository.PassageiroRepository;
+import com.example.transport.repository.UserRepository;
 import com.example.transport.service.PassageiroService;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
+import java.util.Optional;
 
 public class PassageiroServiceIMPL  implements PassageiroService {
 
 @Autowired
 private PassageiroRepository passageiroRepository;
+@Autowired
+private UserRepository userRepository;
 
     @Override
     public List<Passageiro> buscarPassageiros() {
@@ -20,9 +24,13 @@ private PassageiroRepository passageiroRepository;
 
     @Override
     public Passageiro cadastrarPassageiro(Passageiro passageiro) {
+        Optional<User> usuarioExistente = userRepository.findByEmail(passageiro.getUser().getEmail());
+        if (usuarioExistente.isPresent()) {
+            throw new RuntimeException("Este e-mail já está cadastrado no sistema!");
+        }
+
         return passageiroRepository.save(passageiro);
     }
-
     @Override
     public void removerPassageiro(Passageiro passageiro) {
         passageiroRepository.delete(passageiro);
@@ -42,6 +50,6 @@ private PassageiroRepository passageiroRepository;
 
 
 
-        return passageiroRepository.save(passageiro);
+        return passageiroRepository.save(p);
     }
 }
