@@ -21,7 +21,7 @@ public class Passagem {
     @ManyToOne
     private User user;
     @OneToOne
-    private List<Viagem> viagem;
+    private Viagem viagem;
     @ManyToOne
     private Transport transport;
     @ManyToOne

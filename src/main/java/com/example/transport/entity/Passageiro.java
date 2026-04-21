@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
@@ -22,8 +24,8 @@ public class Passageiro {
     @OneToOne(cascade = CascadeType.ALL)
     private Transport transports;
     @OneToMany(cascade = CascadeType.ALL)
-    private Viagem viages;
-    @OneToMany
+    private List<Viagem> viages;
+    @OneToOne(cascade = CascadeType.ALL)
     private User user;
 
 

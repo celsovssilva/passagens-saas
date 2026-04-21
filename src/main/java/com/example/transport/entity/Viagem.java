@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @AllArgsConstructor
@@ -17,7 +18,7 @@ public class Viagem {
     private LocalDateTime Saida;
 
     @ManyToMany
-    private Passagem passagem;
+    private List<Passagem> passagem;
     @ManyToOne
     private Transport transport;
 }

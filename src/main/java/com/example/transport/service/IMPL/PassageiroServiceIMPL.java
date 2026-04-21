@@ -8,9 +8,11 @@ import com.example.transport.request.PassageiroRequest;
 import com.example.transport.response.PassageiroResponse;
 import com.example.transport.service.PassageiroService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
+@Service
 public class PassageiroServiceIMPL  implements PassageiroService {
 
 @Autowired
@@ -50,7 +52,7 @@ private UserRepository userRepository;
     @Override
     public void removerPassageiro(Long idPassageiro) {
 
-        passageiroRepository.delete(idPassageiro);
+        passageiroRepository.deleteById(idPassageiro);
     }
 
     @Override
