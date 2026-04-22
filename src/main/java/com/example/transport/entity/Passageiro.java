@@ -19,7 +19,7 @@ public class Passageiro {
     private String sobrenome;
     private String cpf;
     private Integer idade;
-    private Integer phone;
+    private String phone;
 
     @OneToOne(cascade = CascadeType.ALL)
     private Transport transports;

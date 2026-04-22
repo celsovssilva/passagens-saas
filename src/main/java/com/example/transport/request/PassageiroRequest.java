@@ -4,7 +4,7 @@ public record PassageiroRequest (
 
         String nome,
         String sobrenome,
-        Integer phone,
+        String phone,
         String email,
         String password,
         Integer idade

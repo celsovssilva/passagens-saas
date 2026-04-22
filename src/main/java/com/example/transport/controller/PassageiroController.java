@@ -26,8 +26,8 @@ public class PassageiroController {
             return ResponseEntity.ok(passageiroResponse);
         }
 
-        @GetMapping("/buscar")
-    public ResponseEntity<PassageiroResponse> buscarPassageiros(@RequestParam Long idPassageiro){
+        @GetMapping("/buscar/{idPassageiro}")
+    public ResponseEntity<PassageiroResponse> buscarPassageiros(@PathVariable Long idPassageiro){
             Optional<Passageiro> passageiro = passageiroService.buscarPassageiros(idPassageiro);
             PassageiroResponse p = new PassageiroResponse(passageiro.get());
 
@@ -36,9 +36,9 @@ public class PassageiroController {
         }
 
         @PutMapping("/atualizar/{idPassageiro}")
-        public ResponseEntity<PassageiroResponse> atualizarPassageiro(@PathVariable Long id,@RequestBody PassageiroRequest passageiro){
+        public ResponseEntity<PassageiroResponse> atualizarPassageiro(@PathVariable Long idPassageiro,@RequestBody PassageiroRequest passageiro){
 
-            return ResponseEntity.ok(passageiroService.atualizarPassageiro(id,passageiro));
+            return ResponseEntity.ok(passageiroService.atualizarPassageiro(idPassageiro,passageiro));
         }
 
         @DeleteMapping("deletar/{idPassageiro}")

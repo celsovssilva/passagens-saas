@@ -5,7 +5,7 @@ import com.example.transport.entity.Passageiro;
 
 public record PassageiroResponse(
         String nome,
-        Integer phone,
+        String phone,
         String email,
         Integer idade
 ) {
