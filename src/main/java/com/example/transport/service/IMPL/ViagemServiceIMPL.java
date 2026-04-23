@@ -8,9 +8,10 @@ import com.example.transport.request.ViagemRequest;
 import com.example.transport.response.ViagemResponse;
 import com.example.transport.service.ViagemService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.Optional;
-
+@Service
 public class ViagemServiceIMPL implements ViagemService {
     @Autowired
     private ViagemRepository viagemRepository;
