@@ -3,6 +3,7 @@ package com.example.transport.request;
 public record TransportRequest(
         String modelo,
         Integer capacidade,
-        String status
+        String status,
+        Long empresaId
 ) {
 }

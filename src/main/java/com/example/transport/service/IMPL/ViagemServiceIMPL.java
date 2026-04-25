@@ -26,7 +26,7 @@ public class ViagemServiceIMPL implements ViagemService {
                 .orElseThrow(()-> new RuntimeException("passageiro não encontrado"));
         Integer capacidade = viagem.getTransport().getVagas();
         if (viagem.getPassageiro().size() >= capacidade) {
-            throw new RuntimeException("o veiculo " + viagem.getTransport().getName() + "está lotado");
+            throw new RuntimeException("o veiculo " + viagem.getTransport().getModelo() + "está lotado");
 
         }
         viagem.getPassageiro().add(passageiro);

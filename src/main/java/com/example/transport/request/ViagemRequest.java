@@ -6,6 +6,7 @@ public record ViagemRequest(
         String origem,
         String destino,
         LocalDateTime dataSaida,
-        Long passageiroId
+        Long passageiroId,
+        Long transportId
 ) {
 }

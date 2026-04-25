@@ -5,7 +5,9 @@ import com.example.transport.repository.TransportRepository;
 import com.example.transport.request.TransportRequest;
 import com.example.transport.service.TransportService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+@Service
 public class TransportServiceIMPL implements TransportService {
 
     @Autowired
