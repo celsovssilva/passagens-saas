@@ -2,12 +2,14 @@ package com.example.transport.controller;
 
 import com.example.transport.entity.Viagem;
 import com.example.transport.request.ViagemRequest;
+import com.example.transport.response.PassageiroResponse;
 import com.example.transport.response.ViagemResponse;
 import com.example.transport.service.ViagemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -29,5 +31,15 @@ public class ViagemController {
     @DeleteMapping("/deletar/{idViagem}")
     public void deletarViagem(@PathVariable Long idViagem){
         viagemService.deleteViagem(idViagem);
+    }
+
+    @PostMapping("/cadastrar")
+    public ResponseEntity<ViagemResponse> cadastrar(@RequestBody ViagemRequest request){
+        return ResponseEntity.ok(viagemService.cadastrarViagem(request));
+    }
+
+    @GetMapping("/listar-passageiros/{viagemId}")
+    public ResponseEntity<List<PassageiroResponse>> listarPassageirosViagem(@PathVariable Long viagemId){
+        return ResponseEntity.ok( viagemService.buscarPassageirosporViagem(viagemId));
     }
 }

@@ -1,6 +1,8 @@
 C:\Users\Celso\Desktop\transport\src\main\java\com\example\transport\entity\Role.java
 C:\Users\Celso\Desktop\transport\src\main\java\com\example\transport\request\TransportRequest.java
+C:\Users\Celso\Desktop\transport\src\main\java\com\example\transport\request\EmpresaRequest.java
 C:\Users\Celso\Desktop\transport\src\main\java\com\example\transport\repository\ViagemRepository.java
+C:\Users\Celso\Desktop\transport\src\main\java\com\example\transport\service\EmpresaService.java
 C:\Users\Celso\Desktop\transport\src\main\java\com\example\transport\entity\Compra.java
 C:\Users\Celso\Desktop\transport\src\main\java\com\example\transport\entity\Empresa.java
 C:\Users\Celso\Desktop\transport\src\main\java\com\example\transport\repository\UserRepository.java
@@ -9,7 +11,9 @@ C:\Users\Celso\Desktop\transport\src\main\java\com\example\transport\response\Pa
 C:\Users\Celso\Desktop\transport\src\main\java\com\example\transport\entity\Viagem.java
 C:\Users\Celso\Desktop\transport\src\main\java\com\example\transport\controller\PassageiroController.java
 C:\Users\Celso\Desktop\transport\src\main\java\com\example\transport\repository\PassageiroRepository.java
+C:\Users\Celso\Desktop\transport\src\main\java\com\example\transport\repository\EmpresaRepository.java
 C:\Users\Celso\Desktop\transport\src\main\java\com\example\transport\entity\User.java
+C:\Users\Celso\Desktop\transport\src\main\java\com\example\transport\response\EmpresaResponse.java
 C:\Users\Celso\Desktop\transport\src\main\java\com\example\transport\entity\Passagem.java
 C:\Users\Celso\Desktop\transport\src\main\java\com\example\transport\service\IMPL\TransportServiceIMPL.java
 C:\Users\Celso\Desktop\transport\src\main\java\com\example\transport\service\PassageiroService.java
@@ -23,6 +27,7 @@ C:\Users\Celso\Desktop\transport\src\main\java\com\example\transport\repository\
 C:\Users\Celso\Desktop\transport\src\main\java\com\example\transport\controller\ViagemController.java
 C:\Users\Celso\Desktop\transport\src\main\java\com\example\transport\service\ViagemService.java
 C:\Users\Celso\Desktop\transport\src\main\java\com\example\transport\entity\Transport.java
+C:\Users\Celso\Desktop\transport\src\main\java\com\example\transport\service\IMPL\EmpresaServiceIMPL.java
 C:\Users\Celso\Desktop\transport\src\main\java\com\example\transport\service\IMPL\PassageiroServiceIMPL.java
 C:\Users\Celso\Desktop\transport\src\main\java\com\example\transport\TransportApplication.java
 C:\Users\Celso\Desktop\transport\src\main\java\com\example\transport\controller\TransportController.java
