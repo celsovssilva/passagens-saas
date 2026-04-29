@@ -1,8 +1,7 @@
 package com.example.transport.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -10,13 +9,18 @@ import java.util.List;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
+@Getter
+@Setter
 public class Compra {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private Double valor;
-    private LocalDateTime data;
 
-    @OneToMany
-    private List<Passagem> passagem;
+    @ManyToOne
+    private User comprador;
+
+    @OneToMany(cascade = CascadeType.ALL)
+    private List<Passagem> passagens;
+
+    private LocalDateTime dataCompra;
 }
