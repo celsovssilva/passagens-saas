@@ -17,9 +17,11 @@ public class Compra {
     private Long id;
 
     @ManyToOne
-    private User comprador;
+    private User user;
     private double valor;
     private String status;
+    @Column(name = "user_id")
+    private Long userId;
 
     @OneToMany(cascade = CascadeType.ALL)
     private List<Passagem> passagens;

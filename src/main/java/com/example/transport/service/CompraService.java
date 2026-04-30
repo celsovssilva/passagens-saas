@@ -10,4 +10,5 @@ public interface CompraService {
     CompraResponse comprar(CompraRequest compra);
     void excluir(Long id);
     List<CompraResponse> historico(Long id);
+    void confirmarPagamento(Long idCompra);
 }

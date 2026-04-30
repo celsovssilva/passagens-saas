@@ -7,5 +7,5 @@ import org.springframework.data.repository.CrudRepository;
 import java.util.List;
 
 public interface CompraRepository extends JpaRepository<Compra, Long> {
-    List<Compra> findByUserId(Long userid);
+    List<Compra> findByUserId(Long userId);
 }

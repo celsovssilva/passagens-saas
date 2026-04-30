@@ -65,4 +65,15 @@ public class CompraServiceIMPL implements CompraService {
             List<Compra> compras = compraRepository.findByUserId(id);
         return compras.stream().map(compra -> new CompraResponse(compra)).toList();
     }
+
+    @Override
+    public void confirmarPagamento(Long idCompra) {
+        Compra c = compraRepository.findById(idCompra)
+                .orElseThrow(() -> new RuntimeException("compra inexistente"));
+        if(!c.getStatus().equals("AGUARDANDO PAGAMENTO")) {
+            throw  new RuntimeException("Operação inválida. O status atual é" + c.getStatus());
+        }
+        c.setStatus("PAGAMENTO COCLUIDO");
+        compraRepository.save(c);
+    }
 }
