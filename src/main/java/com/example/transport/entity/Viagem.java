@@ -24,10 +24,15 @@ public class Viagem {
     private String destino;
     private LocalDateTime dataSaida;
     private Integer capacidade;
+    private Double valorTotal;
 
 
     @ManyToMany
     private List<Passageiro> passageiro ;
     @ManyToOne
     private Transport transport;
+
+    public void devolverVagas(int quantidade) {
+        this.capacidade += quantidade;
+    }
 }

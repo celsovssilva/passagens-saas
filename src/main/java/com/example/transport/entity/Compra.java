@@ -18,6 +18,8 @@ public class Compra {
 
     @ManyToOne
     private User comprador;
+    private double valor;
+    private String status;
 
     @OneToMany(cascade = CascadeType.ALL)
     private List<Passagem> passagens;
