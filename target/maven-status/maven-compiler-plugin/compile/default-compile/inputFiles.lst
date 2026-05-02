@@ -11,10 +11,12 @@ C:\Users\Celso\Desktop\transport\passagens-saas\src\main\java\com\example\transp
 C:\Users\Celso\Desktop\transport\passagens-saas\src\main\java\com\example\transport\TransportApplication.java
 C:\Users\Celso\Desktop\transport\passagens-saas\src\main\java\com\example\transport\entity\Passageiro.java
 C:\Users\Celso\Desktop\transport\passagens-saas\src\main\java\com\example\transport\entity\Empresa.java
+C:\Users\Celso\Desktop\transport\passagens-saas\src\main\java\com\example\transport\service\IMPL\LocalidadeServiceIMPL.java
 C:\Users\Celso\Desktop\transport\passagens-saas\src\main\java\com\example\transport\service\PassageiroService.java
 C:\Users\Celso\Desktop\transport\passagens-saas\src\main\java\com\example\transport\response\PassagemResponse.java
 C:\Users\Celso\Desktop\transport\passagens-saas\src\main\java\com\example\transport\request\CompraRequest.java
 C:\Users\Celso\Desktop\transport\passagens-saas\src\main\java\com\example\transport\request\TransportRequest.java
+C:\Users\Celso\Desktop\transport\passagens-saas\src\main\java\com\example\transport\response\EstadoIBGE.java
 C:\Users\Celso\Desktop\transport\passagens-saas\src\main\java\com\example\transport\service\TransportService.java
 C:\Users\Celso\Desktop\transport\passagens-saas\src\main\java\com\example\transport\service\IMPL\ViagemServiceIMPL.java
 C:\Users\Celso\Desktop\transport\passagens-saas\src\main\java\com\example\transport\response\EmpresaResponse.java
@@ -25,6 +27,8 @@ C:\Users\Celso\Desktop\transport\passagens-saas\src\main\java\com\example\transp
 C:\Users\Celso\Desktop\transport\passagens-saas\src\main\java\com\example\transport\service\IMPL\TransportServiceIMPL.java
 C:\Users\Celso\Desktop\transport\passagens-saas\src\main\java\com\example\transport\service\ViagemService.java
 C:\Users\Celso\Desktop\transport\passagens-saas\src\main\java\com\example\transport\controller\EmpresaController.java
+C:\Users\Celso\Desktop\transport\passagens-saas\src\main\java\com\example\transport\response\CidadeIBGE.java
+C:\Users\Celso\Desktop\transport\passagens-saas\src\main\java\com\example\transport\controller\LocalidadeController.java
 C:\Users\Celso\Desktop\transport\passagens-saas\src\main\java\com\example\transport\controller\PassageiroController.java
 C:\Users\Celso\Desktop\transport\passagens-saas\src\main\java\com\example\transport\repository\PassageiroRepository.java
 C:\Users\Celso\Desktop\transport\passagens-saas\src\main\java\com\example\transport\controller\TransportController.java
@@ -38,4 +42,5 @@ C:\Users\Celso\Desktop\transport\passagens-saas\src\main\java\com\example\transp
 C:\Users\Celso\Desktop\transport\passagens-saas\src\main\java\com\example\transport\service\EmpresaService.java
 C:\Users\Celso\Desktop\transport\passagens-saas\src\main\java\com\example\transport\service\IMPL\EmpresaServiceIMPL.java
 C:\Users\Celso\Desktop\transport\passagens-saas\src\main\java\com\example\transport\service\IMPL\CompraServiceIMPL.java
+C:\Users\Celso\Desktop\transport\passagens-saas\src\main\java\com\example\transport\service\LocalidadeService.java
 C:\Users\Celso\Desktop\transport\passagens-saas\src\main\java\com\example\transport\repository\CompraRepository.java
