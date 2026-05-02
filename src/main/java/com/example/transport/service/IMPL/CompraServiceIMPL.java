@@ -50,7 +50,7 @@ public class CompraServiceIMPL implements CompraService {
         compra.setStatus("COMPRA CANCELADA");
 
         Viagem v = compra.getPassagens().get(0).getViagem();
-
+        // devolve as vagas
         int vagasDevolvidas = compra.getPassagens().size();
         v.devolverVagas(vagasDevolvidas);
         viagemRepository.save(v);

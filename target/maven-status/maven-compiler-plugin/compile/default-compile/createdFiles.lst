@@ -11,8 +11,11 @@ com\example\transport\entity\Role.class
 com\example\transport\controller\ViagemController.class
 com\example\transport\repository\ViagemRepository.class
 com\example\transport\entity\Transport.class
+com\example\transport\response\CompraResponse.class
+com\example\transport\response\PassagemResponse.class
 com\example\transport\entity\Passageiro.class
 com\example\transport\entity\Viagem.class
+com\example\transport\controller\EmpresaController.class
 com\example\transport\response\PassageiroResponse.class
 com\example\transport\service\IMPL\EmpresaServiceIMPL.class
 com\example\transport\response\EmpresaResponse.class
@@ -23,6 +26,7 @@ com\example\transport\entity\User.class
 com\example\transport\response\ViagemResponse.class
 com\example\transport\entity\Empresa.class
 com\example\transport\service\IMPL\ViagemServiceIMPL.class
+com\example\transport\request\CompraRequest.class
 com\example\transport\service\CompraService.class
 com\example\transport\TransportApplication.class
 com\example\transport\service\IMPL\CompraServiceIMPL.class

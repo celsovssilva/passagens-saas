@@ -6,6 +6,7 @@ public record PassageiroRequest (
         String sobrenome,
         String phone,
         String email,
+        Double cpf,
         String password,
         Integer idade
 

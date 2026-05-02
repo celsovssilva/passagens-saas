@@ -8,10 +8,12 @@ import com.example.transport.request.EmpresaRequest;
 import com.example.transport.response.TransportResponse;
 import com.example.transport.service.EmpresaService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
+@Service
 public class EmpresaServiceIMPL implements EmpresaService {
     @Autowired
     private EmpresaRepository empresaRepository;
@@ -32,13 +34,15 @@ public class EmpresaServiceIMPL implements EmpresaService {
         User newUser = new User();
         newUser.setEmail(empresa.email());
         newUser.setPassword(empresa.password());
+        newUser= userRepository.save(newUser);
 
         Empresa newEmpresa = new Empresa();
         newEmpresa.setCnpj(empresa.cnpj());
         newEmpresa.setRazaoSocial(empresa.razaoSocial());
         newEmpresa.setEndereco(empresa.endereco());
         newEmpresa.setTelefone(empresa.telefone());
-        newEmpresa.setUser((List<User>) newUser);
+
+        newEmpresa.setUser(newUser);
 
         return empresaRepository.save(newEmpresa);
     }
