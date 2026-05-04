@@ -9,6 +9,7 @@ import com.example.transport.repository.ViagemRepository;
 import com.example.transport.request.ViagemRequest;
 import com.example.transport.response.PassageiroResponse;
 import com.example.transport.response.ViagemResponse;
+import com.example.transport.service.LocalidadeService;
 import com.example.transport.service.ViagemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -26,6 +27,8 @@ public class ViagemServiceIMPL implements ViagemService {
     private PassageiroRepository passageiroRepository;
     @Autowired
     private TransportRepository transportRepository;
+    @Autowired
+    private LocalidadeService localidadeService;
 
     @Override
     public ViagemResponse agendarViagem(ViagemRequest viagemRequest) {
@@ -53,6 +56,11 @@ public class ViagemServiceIMPL implements ViagemService {
 
     @Override
     public ViagemResponse cadastrarViagem(ViagemRequest viagemRequest) {
+        if(!localidadeService.validarCidade(viagemRequest.ufOrigem(), viagemRequest.origem()) ||
+        !localidadeService.validarCidade(viagemRequest.ufDestino(), viagemRequest.destino())){
+            throw new RuntimeException("Localidade não reconhecida pelo IBGE,Cadastro cancelado !");
+
+        }
         Transport transport= transportRepository.findById(viagemRequest.transportId())
                 .orElseThrow(()-> new RuntimeException("transporte não encontrada"));
         Viagem v = new Viagem();
@@ -60,6 +68,7 @@ public class ViagemServiceIMPL implements ViagemService {
         v.setDestino(viagemRequest.destino());
         v.setDataSaida(viagemRequest.dataSaida());
         v.setTransport(transport);
+        v.setCapacidade(viagemRequest.capacidade());
         v.setValorTotal(viagemRequest.valorTotal());
 
         viagemRepository.save(v);

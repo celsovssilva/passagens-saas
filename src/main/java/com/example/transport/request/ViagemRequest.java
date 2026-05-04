@@ -8,6 +8,9 @@ public record ViagemRequest(
         LocalDateTime dataSaida,
         Double valorTotal,
         Long passageiroId,
-        Long transportId
+        Long transportId,
+        String ufOrigem,
+        String ufDestino,
+        Integer capacidade
 ) {
 }

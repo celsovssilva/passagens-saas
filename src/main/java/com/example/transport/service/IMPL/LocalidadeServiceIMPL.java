@@ -32,4 +32,10 @@ public class LocalidadeServiceIMPL implements LocalidadeService {
         CidadeIBGE[] cidades = restTemplate.getForObject(urlCidades, CidadeIBGE[].class);
         return  Arrays.asList(cidades);
     }
+
+    @Override
+    public boolean validarCidade(String uf, String nomeCidade) {
+        List<CidadeIBGE> cidadesReais = buscarCidadesPorEstado(uf);
+        return cidadesReais.stream().anyMatch(c -> c.nome().equalsIgnoreCase(nomeCidade));
+    }
 }

@@ -1,5 +1,6 @@
 package com.example.transport.request;
 
+import com.example.transport.entity.MetodoPagamento;
 import com.example.transport.entity.Passagem;
 import com.example.transport.entity.User;
 import com.example.transport.response.PassageiroResponse;
@@ -9,7 +10,10 @@ import java.util.List;
 
 public record CompraRequest(
        Long viagemId,
-        List<PassageiroResponse> passageiro
+        List<PassageiroResponse> passageiro,
+       MetodoPagamento metodo,
+       String numeroCartao,
+       String cvv
 
 ) {
 }

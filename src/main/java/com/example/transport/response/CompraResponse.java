@@ -12,15 +12,18 @@ public record CompraResponse(
         Long id,
         String status,
         LocalDateTime dataCompra,
-        List<Passagem> passagens
+        List<Passagem> passagens,
+        String pixCopiaECola
 ) {
 
     public CompraResponse(Compra compra2) {
         this(
           compra2.getId(),
-          compra2.getStatus(),
+          compra2.getStatus().name(),
           compra2.getDataCompra(),
-          compra2.getPassagens()
+          compra2.getPassagens(),
+          compra2.getPixCopiaECola()
+
         );
     }
 }

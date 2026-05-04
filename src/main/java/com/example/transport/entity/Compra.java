@@ -20,11 +20,18 @@ public class Compra {
     private User user;
 
     private double valor;
-    private String status;
+    @Enumerated(EnumType.STRING)
+    private StatusPagamento status;
 
 
     @OneToMany(cascade = CascadeType.ALL)
     private List<Passagem> passagens;
 
     private LocalDateTime dataCompra;
+
+    @Enumerated(EnumType.STRING)
+    private MetodoPagamento metodoPagamento;
+
+    private String comprovantePix;
+    private String pixCopiaECola;
 }

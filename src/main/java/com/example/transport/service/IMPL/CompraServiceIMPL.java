@@ -1,6 +1,8 @@
 package com.example.transport.service.IMPL;
 
 import com.example.transport.entity.Compra;
+import com.example.transport.entity.MetodoPagamento;
+import com.example.transport.entity.StatusPagamento;
 import com.example.transport.entity.Viagem;
 import com.example.transport.repository.CompraRepository;
 import com.example.transport.repository.ViagemRepository;
@@ -9,7 +11,7 @@ import com.example.transport.response.CompraResponse;
 import com.example.transport.service.CompraService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
+import java.util.UUID;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
@@ -32,7 +34,15 @@ public class CompraServiceIMPL implements CompraService {
         Compra compra1 = new Compra();
         compra1.setValor(valorTotal);
         compra1.setDataCompra(LocalDateTime.now());
-        compra1.setStatus("Aguardando Pagamento");
+        compra1.setMetodoPagamento(compra.metodo());
+
+        if(compra.metodo() == MetodoPagamento.PIX){
+                compra1.setStatus(StatusPagamento.PENDENTE);
+                compra1.setPixCopiaECola("PIX-COPIA-COLA" + UUID.randomUUID());
+        } else if (compra.metodo() == MetodoPagamento.CARTAO_CREDITO) {
+            compra1.setStatus(StatusPagamento.APROVADO);
+        }
+
         Compra compra2 = compraRepository.save(compra1);
         return new CompraResponse(compra2);
     }
@@ -47,7 +57,7 @@ public class CompraServiceIMPL implements CompraService {
             throw new RuntimeException("O prazo para cancelamento expirou");
         }
         System.out.println(" Solicitando extorno do valor" + compra.getValor() + "para cliente");
-        compra.setStatus("COMPRA CANCELADA");
+        compra.setStatus(StatusPagamento.CANCELADO);
 
         Viagem v = compra.getPassagens().get(0).getViagem();
         // devolve as vagas
@@ -71,9 +81,9 @@ public class CompraServiceIMPL implements CompraService {
         Compra c = compraRepository.findById(idCompra)
                 .orElseThrow(() -> new RuntimeException("compra inexistente"));
         if(!c.getStatus().equals("AGUARDANDO PAGAMENTO")) {
-            throw  new RuntimeException("Operação inválida. O status atual é" + c.getStatus());
+            throw  new RuntimeException("Operação inválida. O status atual é" + StatusPagamento.CANCELADO);
         }
-        c.setStatus("PAGAMENTO COCLUIDO");
+        c.setStatus(StatusPagamento.APROVADO);
         compraRepository.save(c);
     }
 }
