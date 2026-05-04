@@ -5,6 +5,7 @@ import com.example.transport.request.ViagemRequest;
 import com.example.transport.response.PassageiroResponse;
 import com.example.transport.response.ViagemResponse;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Stream;
@@ -15,4 +16,5 @@ public interface ViagemService {
      ViagemResponse cadastrarViagem(ViagemRequest viagemRequest);
      List<PassageiroResponse> buscarPassageirosporViagem(Long viagemId);
      void deleteViagem(Long idViagem);
+     List<ViagemResponse> buscarViagem(String origem, String destino, LocalDateTime data);
 }

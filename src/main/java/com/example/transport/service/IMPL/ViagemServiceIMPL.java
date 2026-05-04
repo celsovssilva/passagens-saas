@@ -13,6 +13,7 @@ import com.example.transport.service.ViagemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Stream;
@@ -85,5 +86,12 @@ public class ViagemServiceIMPL implements ViagemService {
 
         viagemRepository.deleteById(idViagem);
 
+    }
+
+    @Override
+    public List<ViagemResponse> buscarViagem(String origem, String destino, LocalDateTime data) {
+        List<Viagem> viagensEncontradas = viagemRepository.buscarPorDataERota(origem,destino,data);
+        return viagensEncontradas.stream()
+                .map(ViagemResponse::new).toList();
     }
 }
