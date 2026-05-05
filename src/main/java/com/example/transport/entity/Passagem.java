@@ -21,6 +21,8 @@ public class Passagem {
     private LocalDateTime dataHoraDaCompra;
     private Integer quantidadeDeAssentos;
     private  Integer numeroAssentos;
+    private String nomePassageiro;
+    private String cpf;
 
     @ManyToOne
     private User user;

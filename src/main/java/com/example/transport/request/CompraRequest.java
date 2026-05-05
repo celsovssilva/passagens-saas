@@ -9,8 +9,9 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 public record CompraRequest(
+        Long usuarioId,
        Long viagemId,
-        List<PassageiroResponse> passageiro,
+        List<PassageiroRequest> passageiro,
        MetodoPagamento metodo,
        String numeroCartao,
        String cvv

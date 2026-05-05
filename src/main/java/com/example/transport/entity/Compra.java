@@ -1,5 +1,6 @@
 package com.example.transport.entity;
 
+import com.example.transport.response.PassagemResponse;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -34,4 +35,6 @@ public class Compra {
 
     private String comprovantePix;
     private String pixCopiaECola;
+
+
 }
