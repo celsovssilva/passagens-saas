@@ -96,9 +96,9 @@ public class CompraServiceIMPL implements CompraService {
 
 
     @Override
-    public List<CompraResponse> historico(Long id) {
-            List<Compra> compras = compraRepository.findByUserId(id);
-        return compras.stream().map(compra -> new CompraResponse(compra)).toList();
+    public List<CompraResponse> historico(Long userId) {
+            List<Compra> compras = compraRepository.findByUserId(userId);
+        return compras.stream().map(CompraResponse::new).toList();
     }
 
     @Override

@@ -5,6 +5,7 @@ import com.example.transport.repository.UserRepository;
 import com.example.transport.request.PassageiroRequest;
 import com.example.transport.response.PassageiroResponse;
 import com.example.transport.service.PassageiroService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -20,7 +21,7 @@ public class PassageiroController {
     private UserRepository userRepository;
 
         @PostMapping("/cadastrar")
-        public ResponseEntity<PassageiroResponse> cadastrarPassageiro(@RequestBody PassageiroRequest passageiro){
+        public ResponseEntity<PassageiroResponse> cadastrarPassageiro(@RequestBody @Valid PassageiroRequest passageiro){
             Passageiro passageiro1 = passageiroService.cadastrarPassageiro(passageiro);
             PassageiroResponse passageiroResponse = new PassageiroResponse(passageiro1);
             return ResponseEntity.ok(passageiroResponse);

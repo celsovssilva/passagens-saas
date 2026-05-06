@@ -28,6 +28,10 @@ private UserRepository userRepository;
 
     @Override
     public Passageiro cadastrarPassageiro(PassageiroRequest passageiro) {
+        if(passageiroRepository.findByCpf(passageiro.cpf())){
+            throw new RuntimeException("CPF invalido");
+
+        }
         //verifica se o email já existe e não deixa cadastrar
         Optional<User> usuarioExistente = userRepository.findByEmail(passageiro.email());
         if (usuarioExistente.isPresent()) {

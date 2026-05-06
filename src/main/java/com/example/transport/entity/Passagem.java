@@ -26,11 +26,12 @@ public class Passagem {
 
     @ManyToOne
     private User user;
-    @OneToOne
+    @ManyToOne
     private Viagem viagem;
     @ManyToOne
     private Transport transport;
     @ManyToOne
+    @JoinColumn(name = "compra_id")
     private Compra compra;
 
 

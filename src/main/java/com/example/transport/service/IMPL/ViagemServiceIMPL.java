@@ -61,6 +61,9 @@ public class ViagemServiceIMPL implements ViagemService {
             throw new RuntimeException("Localidade não reconhecida pelo IBGE,Cadastro cancelado !");
 
         }
+        if(viagemRequest.dataSaida().isBefore(LocalDateTime.now().plusHours(1))){
+            throw new RuntimeException("a viagem tem que ser marcada com uma hora de atecedencia");
+        }
         Transport transport= transportRepository.findById(viagemRequest.transportId())
                 .orElseThrow(()-> new RuntimeException("transporte não encontrada"));
         Viagem v = new Viagem();

@@ -25,13 +25,16 @@ public class Compra {
     private StatusPagamento status;
 
 
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "compra", cascade = CascadeType.ALL)
     private List<Passagem> passagens;
 
     private LocalDateTime dataCompra;
 
     @Enumerated(EnumType.STRING)
     private MetodoPagamento metodoPagamento;
+    @ManyToOne
+    @JoinColumn(name = "viagem_id")
+    private Viagem viagem;
 
     private String comprovantePix;
     private String pixCopiaECola;

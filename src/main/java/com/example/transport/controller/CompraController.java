@@ -4,6 +4,7 @@ import com.example.transport.repository.CompraRepository;
 import com.example.transport.request.CompraRequest;
 import com.example.transport.response.CompraResponse;
 import com.example.transport.service.CompraService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,7 +18,7 @@ public class CompraController {
     private CompraService compraService;
 
     @PostMapping("/comprar")
-    public ResponseEntity<CompraResponse> comprar(@RequestBody CompraRequest compraRequest) {
+    public ResponseEntity<CompraResponse> comprar(@Valid @RequestBody CompraRequest compraRequest) {
         CompraResponse response = compraService.comprar(compraRequest);
         return ResponseEntity.ok(response);
     }
@@ -34,9 +35,9 @@ public class CompraController {
         return ResponseEntity.ok().build();
     }
 
-    @GetMapping("/historico/{id}")
-    public ResponseEntity<List<CompraResponse>> historico(@PathVariable Long idCompra) {
-        List<CompraResponse> compras = compraService.historico(idCompra);
+    @GetMapping("/historico/{userId}")
+    public ResponseEntity<List<CompraResponse>> historico(@PathVariable Long userId) {
+        List<CompraResponse> compras = compraService.historico(userId);
         return ResponseEntity.ok(compras);
     }
 }
