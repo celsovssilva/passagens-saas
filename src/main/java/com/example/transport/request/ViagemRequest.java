@@ -6,16 +6,15 @@ import jakarta.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 public record ViagemRequest(
         Long id,
-        String origem,
-        String destino,
+        Long  rotaId,
         @NotNull(message = "a data de saida é obrigatória")
         @Future(message =" A data de saída deve ser uma data futura")
         LocalDateTime dataSaida,
-        Double valorTotal,
-        Long passageiroId,
+        Long userId,
         Long transportId,
-        String ufOrigem,
-        String ufDestino,
-        Integer capacidade
+        Integer capacidade,
+        Integer vagasDisponiveis,
+        String cpf,
+        String nomePassageiro
 ) {
 }

@@ -19,19 +19,18 @@ public class Viagem {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-
-    private String origem;
-    private String destino;
     private LocalDateTime dataSaida;
     private Integer capacidade;
-    private Double valorTotal;
+    private  Integer vagasDisponiveis;
 
 
     @ManyToMany
     private List<Passageiro> passageiro ;
     @ManyToOne
     private Transport transport;
-
+    @ManyToOne
+    @JoinColumn(name ="rota_id")
+    private Rotas rotas;
     public void devolverVagas(int quantidade) {
         this.capacidade += quantidade;
     }
