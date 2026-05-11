@@ -11,12 +11,6 @@ import java.util.List;
 
 @Repository
 public interface ViagemRepository extends JpaRepository<Viagem, Long> {
-    @Query("SELECT v FROM Viagem v WHERE v.origem = :origem" + " AND v.destino = :destino " +
-    "AND CAST(v.dataSaida AS date) = CAST(:data AS date)")
-    List<Viagem> buscarPorDataERota(
-            @Param("origem") String origem,
-            @Param("destino") String destino,
-            @Param("data") LocalDateTime data
-    );
-
+    @Query("SELECT v FROM Viagem v WHERE v.rota.origem = ?1 AND v.rota.destino = ?2 AND v.dataSaida = ?3")
+    List<Viagem> buscarPorDataERota(String origem, String destino, LocalDateTime dataSaida);
 }

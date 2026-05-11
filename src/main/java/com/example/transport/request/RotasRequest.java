@@ -7,9 +7,9 @@ import jakarta.validation.constraints.Size;
 
 import java.time.LocalTime;
 
-public record RotaRequest(
+public record RotasRequest(
         @NotBlank(message = "A origem é obrigatória")
-                String origem,
+        String origem,
 
         @NotBlank(message = "A UF de origem é obrigatória")
         @Size(min = 2, max = 2, message = "UF deve ter 2 caracteres")
@@ -28,5 +28,6 @@ public record RotaRequest(
 
         @NotNull(message = "O horário padrão é obrigatório")
         LocalTime horarioPadrao
-) {}
+){
 
+}

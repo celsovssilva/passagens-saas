@@ -14,24 +14,35 @@ import java.util.List;
 @NoArgsConstructor
 @Getter
 @Setter
+
 public class Viagem {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @ManyToOne
+    @JoinColumn(name = "rota_id")
+    private Rotas rota;
+
+    @ManyToOne
+    @JoinColumn(name = "transport_id")
+    private Transport transport;
+
     private LocalDateTime dataSaida;
+
     private Integer capacidade;
-    private  Integer vagasDisponiveis;
+    private Integer vagasDisponiveis;
 
-
+    @OneToMany(mappedBy = "viagem")
+    private List<Passagem> passagens;
     @ManyToMany
     private List<Passageiro> passageiro ;
-    @ManyToOne
-    private Transport transport;
-    @ManyToOne
-    @JoinColumn(name ="rota_id")
-    private Rotas rotas;
+
     public void devolverVagas(int quantidade) {
-        this.capacidade += quantidade;
+        this.vagasDisponiveis += quantidade;
+
+            if (this.vagasDisponiveis > this.capacidade) {
+            this.vagasDisponiveis = this.capacidade;
+        }
     }
 }

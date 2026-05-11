@@ -5,17 +5,14 @@ import com.example.transport.repository.*;
 import com.example.transport.request.ViagemRequest;
 import com.example.transport.response.PassageiroResponse;
 import com.example.transport.response.ViagemResponse;
-import com.example.transport.service.LocalidadeService;
 import com.example.transport.service.ViagemService;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Stream;
 
 @Service
 public class ViagemServiceIMPL implements ViagemService {
@@ -42,7 +39,6 @@ public class ViagemServiceIMPL implements ViagemService {
                 .orElseThrow(()-> new RuntimeException("User não encontrado"));
         Passagem passagem = new Passagem();
         passagem.setDataHoraDaCompra(LocalDateTime.now());
-        passagem.setQuantidadeDeAssentos(viagemRequest.vagasDisponiveis());
         passagem.setCpf(viagemRequest.cpf());
         passagem.setNomePassageiro(viagemRequest.nomePassageiro());
         passagem.setTransport(viagem.getTransport());
@@ -71,12 +67,10 @@ public class ViagemServiceIMPL implements ViagemService {
         Transport transport= transportRepository.findById(viagemRequest.transportId())
                 .orElseThrow(()-> new RuntimeException("transporte não encontrada"));
         Viagem v = new Viagem();
-        v.setRotas(rota);
+        v.setRota(rota);
         v.setDataSaida(viagemRequest.dataSaida());
         v.setTransport(transport);
         v.setCapacidade(viagemRequest.capacidade());
-        v.setVagasDisponiveis(viagemRequest.vagasDisponiveis());
-
 
         viagemRepository.save(v);
         return new  ViagemResponse(v);

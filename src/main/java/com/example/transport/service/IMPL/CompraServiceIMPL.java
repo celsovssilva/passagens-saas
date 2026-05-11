@@ -35,7 +35,7 @@ public class CompraServiceIMPL implements CompraService {
         User comprador = userRepository.findById(compra.usuarioId())
                 .orElseThrow(()-> new RuntimeException("usuário não encontrado"));
         int quantidadeDePassagens = compra.passageiro().size();
-        Double valorTotal = v.getRotas().getValor() * quantidadeDePassagens;
+        Double valorTotal = v.getRota().getValor() * quantidadeDePassagens;
         if(quantidadeDePassagens > v.getCapacidade()) {
             throw new RuntimeException("Não há assentos suficientes");
         }
@@ -57,7 +57,7 @@ public class CompraServiceIMPL implements CompraService {
         }).toList();
 
         compra1.setPassagens(passagens);
-        compra1.setValor(v.getRotas().getValor() * quantidadeDePassagens);
+        compra1.setValor(v.getRota().getValor() * quantidadeDePassagens);
 
 
         if(compra.metodo() == MetodoPagamento.PIX){

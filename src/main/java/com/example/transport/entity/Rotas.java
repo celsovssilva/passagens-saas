@@ -23,4 +23,8 @@ public class Rotas {
     private String ufDestino;
     private LocalTime horario;
     private Double valor;
+
+    public void set() {
+
+    }
 }

@@ -6,11 +6,10 @@ import java.time.LocalDateTime;
 
 public record ViagemResponse(
 
-        String origem,
-        String destino,
+        Integer capacidade,
         LocalDateTime dataSaida
 ) {
     public ViagemResponse(Viagem v){
-        this(v.getOrigem(),v.getDestino(),v.getDataSaida());
+        this(v.getCapacidade(),v.getDataSaida());
     }
 }

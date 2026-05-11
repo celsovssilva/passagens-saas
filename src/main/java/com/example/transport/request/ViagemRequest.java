@@ -13,7 +13,6 @@ public record ViagemRequest(
         Long userId,
         Long transportId,
         Integer capacidade,
-        Integer vagasDisponiveis,
         String cpf,
         String nomePassageiro
 ) {
