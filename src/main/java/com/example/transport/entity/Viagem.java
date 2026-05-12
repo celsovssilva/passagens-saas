@@ -39,6 +39,9 @@ public class Viagem {
     private List<Passageiro> passageiro ;
 
     public void devolverVagas(int quantidade) {
+        if (this.vagasDisponiveis == null) {
+            this.vagasDisponiveis = this.capacidade;
+        }
         this.vagasDisponiveis += quantidade;
 
             if (this.vagasDisponiveis > this.capacidade) {

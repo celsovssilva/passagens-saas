@@ -71,6 +71,7 @@ public class ViagemServiceIMPL implements ViagemService {
         v.setDataSaida(viagemRequest.dataSaida());
         v.setTransport(transport);
         v.setCapacidade(viagemRequest.capacidade());
+        v.setVagasDisponiveis(viagemRequest.vagasDisponiveis());
 
         viagemRepository.save(v);
         return new  ViagemResponse(v);
