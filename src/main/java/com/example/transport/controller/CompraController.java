@@ -29,12 +29,11 @@ public class CompraController {
         return ResponseEntity.ok().build();
     }
 
-    @PutMapping("/cancelar/{id}")
-    public ResponseEntity<Void> cancelar(@PathVariable Long idCompra) {
-        compraService.excluir(idCompra);
-        return ResponseEntity.ok().build();
+    @PatchMapping("/{compraId}/cancelar")
+    public ResponseEntity<Void> cancelar(@PathVariable Long compraId) {
+        compraService.cancelarCompra(compraId);
+        return ResponseEntity.noContent().build();
     }
-
     @GetMapping("/historico/{userId}")
     public ResponseEntity<List<CompraResponse>> historico(@PathVariable Long userId) {
         List<CompraResponse> compras = compraService.historico(userId);

@@ -73,29 +73,6 @@ public class CompraServiceIMPL implements CompraService {
     }
 
     @Override
-    public void excluir(Long id) {
-        Compra compra = compraRepository.findById(id)
-                .orElseThrow(()-> new RuntimeException("compra não encontrada"));
-        // calcula a diferença entre dias desde a data da compra até a data atual
-        long diaDaCompra = ChronoUnit.DAYS.between(compra.getDataCompra(),LocalDateTime.now());
-        if(diaDaCompra >=3) {
-            throw new RuntimeException("O prazo para cancelamento expirou");
-        }
-        System.out.println(" Solicitando extorno do valor" + compra.getValor() + "para cliente");
-        compra.setStatus(StatusPagamento.CANCELADO);
-
-        Viagem v = compra.getPassagens().get(0).getViagem();
-        // devolve as vagas
-        int vagasDevolvidas = compra.getPassagens().size();
-        v.devolverVagas(vagasDevolvidas);
-        viagemRepository.save(v);
-        compraRepository.save(compra);
-
-
-    }
-
-
-    @Override
     public List<CompraResponse> historico(Long userId) {
             List<Compra> compras = compraRepository.findByUserId(userId);
         return compras.stream().map(CompraResponse::new).toList();
@@ -110,5 +87,25 @@ public class CompraServiceIMPL implements CompraService {
         }
         c.setStatus(StatusPagamento.APROVADO);
         compraRepository.save(c);
+    }
+
+    @Override
+    public void cancelarCompra(Long compraId) {
+        Compra compra = compraRepository.findById(compraId)
+                .orElseThrow(()-> new RuntimeException("Essa compra não existe"));
+        if(StatusPagamento.CANCELADO.equals(compra.getStatus())){
+            new RuntimeException("Compra já cancelada");
+
+        }
+        if(compra.getPassagens().isEmpty()){
+            new RuntimeException("Erro: Compra sem passagens vinculadas.");
+        }
+        Viagem v = compra.getPassagens().get(0).getViagem();
+        int vagasParaDevolver = compra.getPassagens().size();
+        v.devolverVagas(vagasParaDevolver);
+        compra.setStatus(StatusPagamento.CANCELADO);
+
+        viagemRepository.save(v);
+        compraRepository.save(compra);
     }
 }
