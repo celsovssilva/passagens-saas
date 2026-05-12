@@ -13,7 +13,7 @@ import java.util.stream.Stream;
 
 public interface ViagemService {
      ViagemResponse agendarViagem(ViagemRequest viagemRequest);
-     Optional<Viagem> buscarViagemPorId(Long id);
+     List<ViagemResponse> buscarViagemPorId(Long id);
      ViagemResponse cadastrarViagem(ViagemRequest viagemRequest);
      List<PassageiroResponse> buscarPassageirosporViagem(Long viagemId);
      void deleteViagem(Long idViagem);

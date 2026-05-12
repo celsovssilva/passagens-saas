@@ -26,7 +26,7 @@ public class ViagemController {
     }
 
     @GetMapping("/buscar/{id}")
-    public Optional<Viagem> buscarViagem(@PathVariable Long id){
+    public List<ViagemResponse> buscarViagem(@PathVariable Long id){
         return viagemService.buscarViagemPorId(id);
     }
 
