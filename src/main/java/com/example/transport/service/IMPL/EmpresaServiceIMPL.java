@@ -1,6 +1,7 @@
 package com.example.transport.service.IMPL;
 
 import com.example.transport.entity.Empresa;
+import com.example.transport.entity.Role;
 import com.example.transport.entity.User;
 import com.example.transport.repository.EmpresaRepository;
 import com.example.transport.repository.UserRepository;
@@ -8,6 +9,7 @@ import com.example.transport.request.EmpresaRequest;
 import com.example.transport.response.TransportResponse;
 import com.example.transport.service.EmpresaService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -19,6 +21,8 @@ public class EmpresaServiceIMPL implements EmpresaService {
     private EmpresaRepository empresaRepository;
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @Override
     public Empresa buscarEmpresa(Long idEmpresa) {
@@ -33,7 +37,9 @@ public class EmpresaServiceIMPL implements EmpresaService {
         }
         User newUser = new User();
         newUser.setEmail(empresa.email());
-        newUser.setPassword(empresa.password());
+        String senha = passwordEncoder.encode(empresa.password());
+        newUser.setPassword(senha);
+        newUser.setRole(Role.EMPRESA);
         newUser= userRepository.save(newUser);
 
         Empresa newEmpresa = new Empresa();
