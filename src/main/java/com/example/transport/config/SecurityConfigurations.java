@@ -1,18 +1,24 @@
 package com.example.transport.config;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
 @EnableWebSecurity
 public class SecurityConfigurations {
+    @Autowired
+    private SecurityFilter securityFilter;
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception{
         return http
@@ -30,8 +36,7 @@ public class SecurityConfigurations {
                     req.requestMatchers(HttpMethod.GET,"api/empresa/buscar-transporte/{idEmpresa}").authenticated();
                     req.requestMatchers(HttpMethod.GET,"api/localidades/estados").hasRole("ADMIN");
                     req.requestMatchers(HttpMethod.GET,"api/localidades/estados/{uf}/cidades").hasRole("ADMIN");
-                    req.requestMatchers(HttpMethod.POST,"api/passageiro/cadastrar").hasAnyRole("ADMIN","PASSAGEIRO");
-                    req.requestMatchers(HttpMethod.POST,"api/passageiro/cadastrar").hasAnyRole("ADMIN","PASSAGEIRO");
+                    req.requestMatchers(HttpMethod.POST,"api/passageiro/cadastrar").permitAll();
                     req.requestMatchers(HttpMethod.PUT,"api/passageiro/atualizar/{idPassageiro}").hasAnyRole("ADMIN","PASSAGEIRO");
                     req.requestMatchers(HttpMethod.GET,"api/passageiro/buscar/{idPassaeiro}").hasAnyRole("ADMIN","PASSAGEIRO");
                     req.requestMatchers(HttpMethod.DELETE,"api/passageiro/deletar/{idPassageiro}").hasAnyRole("ADMIN","PASSAGEIRO");
@@ -47,10 +52,17 @@ public class SecurityConfigurations {
                     req.requestMatchers(HttpMethod.GET,"api/viagem/listar-passageiros/{viagemId}").authenticated();
                     req.requestMatchers(HttpMethod.POST,"api/viagem/deletar/{idViagem}").hasAnyRole("ADMIN","EMPRESA");
                     })
+                .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
     }
     @Bean
     public PasswordEncoder passwordEncoder(){
         return new BCryptPasswordEncoder();
+    }
+
+    @Bean
+    public AuthenticationManager authenticationManager(
+            AuthenticationConfiguration authConfig) throws Exception {
+        return authConfig.getAuthenticationManager();
     }
 }

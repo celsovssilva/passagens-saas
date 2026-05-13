@@ -8,6 +8,7 @@ import com.example.transport.repository.UserRepository;
 import com.example.transport.request.PassageiroRequest;
 import com.example.transport.response.PassageiroResponse;
 import com.example.transport.service.PassageiroService;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -31,8 +32,9 @@ public class PassageiroServiceIMPL  implements PassageiroService {
     }
 
     @Override
+    @Transactional
     public Passageiro cadastrarPassageiro(PassageiroRequest passageiro) {
-        if (passageiroRepository.findByCpf(passageiro.cpf())) {
+        if (passageiroRepository.findByCpf(passageiro.cpf()).isPresent()) {
             throw new RuntimeException("CPF invalido");
 
         }
@@ -90,6 +92,7 @@ public class PassageiroServiceIMPL  implements PassageiroService {
             p.setSobrenome(passageiro.sobrenome());
             p.setPhone(passageiro.phone());
             p.setIdade(passageiro.idade());
+
 
 
             return new PassageiroResponse(passageiroRepository.save(p));
