@@ -2,6 +2,7 @@ package com.example.transport.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -17,7 +18,35 @@ public class SecurityConfigurations {
         return http
                 .csrf(csrf -> csrf.disable())
                 .sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .authorizeHttpRequests(req ->{req.anyRequest().permitAll();})
+                .authorizeHttpRequests(req ->{
+                    req.requestMatchers(HttpMethod.POST,"api/auth/login").permitAll();
+                    req.requestMatchers(HttpMethod.POST,"api/compra/comprar").hasAnyRole("ADMIN","PASSAGEIRO");
+                    req.requestMatchers(HttpMethod.PUT,"api/compra/atualizar/{idCompra}").hasAnyRole("ADMIN","PASSAGEIRO");
+                    req.requestMatchers(HttpMethod.PATCH,"api/compra/{compraId}/cancelar").hasAnyRole("ADMIN","PASSAGEIRO");
+                    req.requestMatchers(HttpMethod.GET,"api/compra/historico/{userId}").hasAnyRole("ADMIN","PASSAGEIRO");
+                    req.requestMatchers(HttpMethod.POST,"api/empresa/cadastrar").hasAnyRole("ADMIN","EMPRESA");
+                    req.requestMatchers(HttpMethod.PUT,"api/empresa/atualizar/{id}").hasAnyRole("ADMIN","EMPRESA");
+                    req.requestMatchers(HttpMethod.GET,"api/empresa/buscar/{idEmpresa}").authenticated();
+                    req.requestMatchers(HttpMethod.GET,"api/empresa/buscar-transporte/{idEmpresa}").authenticated();
+                    req.requestMatchers(HttpMethod.GET,"api/localidades/estados").hasRole("ADMIN");
+                    req.requestMatchers(HttpMethod.GET,"api/localidades/estados/{uf}/cidades").hasRole("ADMIN");
+                    req.requestMatchers(HttpMethod.POST,"api/passageiro/cadastrar").hasAnyRole("ADMIN","PASSAGEIRO");
+                    req.requestMatchers(HttpMethod.POST,"api/passageiro/cadastrar").hasAnyRole("ADMIN","PASSAGEIRO");
+                    req.requestMatchers(HttpMethod.PUT,"api/passageiro/atualizar/{idPassageiro}").hasAnyRole("ADMIN","PASSAGEIRO");
+                    req.requestMatchers(HttpMethod.GET,"api/passageiro/buscar/{idPassaeiro}").hasAnyRole("ADMIN","PASSAGEIRO");
+                    req.requestMatchers(HttpMethod.DELETE,"api/passageiro/deletar/{idPassageiro}").hasAnyRole("ADMIN","PASSAGEIRO");
+                    req.requestMatchers(HttpMethod.POST,"api/rotas/cadastrar").hasAnyRole("ADMIN","EMPRESA");
+                    req.requestMatchers(HttpMethod.POST,"api/transport/cadastrar").hasAnyRole("ADMIN","EMPRESA");
+                    req.requestMatchers(HttpMethod.PUT,"api/transport/atualizar/{id}").hasAnyRole("ADMIN","EMPRESA");
+                    req.requestMatchers(HttpMethod.GET,"api/transport/buscar/{id}").hasAnyRole("ADMIN","EMPRESA");
+                    req.requestMatchers(HttpMethod.DELETE,"api/transport/deletar/{id}").hasAnyRole("ADMIN","EMPRESA");
+                    req.requestMatchers(HttpMethod.POST,"api/viagem/cadastrar").hasAnyRole("ADMIN","EMPRESA");
+                    req.requestMatchers(HttpMethod.POST,"api/viagem/agendar").authenticated();
+                    req.requestMatchers(HttpMethod.GET,"api/viagem/buscar/{id}").authenticated();
+                    req.requestMatchers(HttpMethod.GET,"api/viagem/pesquisar").authenticated();
+                    req.requestMatchers(HttpMethod.GET,"api/viagem/listar-passageiros/{viagemId}").authenticated();
+                    req.requestMatchers(HttpMethod.POST,"api/viagem/deletar/{idViagem}").hasAnyRole("ADMIN","EMPRESA");
+                    })
                 .build();
     }
     @Bean
