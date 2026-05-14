@@ -48,6 +48,7 @@ com\example\transport\response\CompraResponse.class
 com\example\transport\response\PassagemResponse.class
 com\example\transport\entity\Passageiro.class
 com\example\transport\entity\Viagem.class
+com\example\transport\config\AdmInitializer.class
 com\example\transport\config\SecurityConfigurations.class
 com\example\transport\response\PassageiroResponse.class
 com\example\transport\response\LoginResponse.class

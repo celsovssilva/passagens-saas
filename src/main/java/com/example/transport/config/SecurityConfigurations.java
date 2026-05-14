@@ -36,7 +36,7 @@ public class SecurityConfigurations {
                     req.requestMatchers(HttpMethod.GET,"api/empresa/buscar-transporte/{idEmpresa}").authenticated();
                     req.requestMatchers(HttpMethod.GET,"api/localidades/estados").hasRole("ADMIN");
                     req.requestMatchers(HttpMethod.GET,"api/localidades/estados/{uf}/cidades").hasRole("ADMIN");
-                    req.requestMatchers(HttpMethod.POST,"api/passageiro/cadastrar").permitAll();
+                    req.requestMatchers(HttpMethod.POST,"api/passageiro/cadastrar").hasAnyRole("ADMIN","PASSAGEIRO");
                     req.requestMatchers(HttpMethod.PUT,"api/passageiro/atualizar/{idPassageiro}").hasAnyRole("ADMIN","PASSAGEIRO");
                     req.requestMatchers(HttpMethod.GET,"api/passageiro/buscar/{idPassaeiro}").hasAnyRole("ADMIN","PASSAGEIRO");
                     req.requestMatchers(HttpMethod.DELETE,"api/passageiro/deletar/{idPassageiro}").hasAnyRole("ADMIN","PASSAGEIRO");
