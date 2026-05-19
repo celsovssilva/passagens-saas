@@ -1,5 +1,6 @@
 package com.example.transport.service.IMPL;
 
+import com.example.transport.config.RabbitMqConfig;
 import com.example.transport.entity.*;
 import com.example.transport.repository.CompraRepository;
 import com.example.transport.repository.PassageiroRepository;
@@ -7,8 +8,11 @@ import com.example.transport.repository.UserRepository;
 import com.example.transport.repository.ViagemRepository;
 import com.example.transport.request.CompraRequest;
 import com.example.transport.response.CompraResponse;
+import com.example.transport.response.PassagemResponse;
 import com.example.transport.service.CompraService;
+import com.example.transport.service.PdfService;
 import jakarta.transaction.Transactional;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.UUID;
@@ -26,6 +30,12 @@ public class CompraServiceIMPL implements CompraService {
     PassageiroRepository passageiroRepository;
     @Autowired
     UserRepository userRepository;
+    @Autowired
+    PdfService pdfService;
+    @Autowired
+    private RabbitTemplate rabbitTemplate;
+
+
     @Transactional
     @Override
     public CompraResponse comprar(CompraRequest compra) {
@@ -68,7 +78,12 @@ public class CompraServiceIMPL implements CompraService {
         }
         v.setCapacidade(v.getCapacidade() - quantidadeDePassagens);
         viagemRepository.save(v);
+
         Compra compra2 = compraRepository.save(compra1);
+        if (compra2.getStatus() == StatusPagamento.APROVADO) {
+            dispararMensagem(compra2, v, comprador);
+        }
+
         return new CompraResponse(compra2);
     }
 
@@ -86,7 +101,10 @@ public class CompraServiceIMPL implements CompraService {
             throw  new RuntimeException("Operação inválida. O status atual é" + StatusPagamento.CANCELADO);
         }
         c.setStatus(StatusPagamento.APROVADO);
-        compraRepository.save(c);
+
+        Compra compraSalva = compraRepository.save(c);
+        Viagem v = compraSalva.getPassagens().get(0).getViagem();
+        dispararMensagem(compraSalva, v, compraSalva.getUser());
     }
 
     @Override
@@ -108,4 +126,23 @@ public class CompraServiceIMPL implements CompraService {
         viagemRepository.save(v);
         compraRepository.save(compra);
     }
-}
+    private void dispararMensagem(Compra c, Viagem v, User u){
+        try {
+            String nomePassageiro = c.getPassagens().isEmpty() ? "Cliente" : c.getPassagens().get(0).getNomePassageiro();
+            String Origem = "Origem: " + v.getRota().getOrigem();
+            String destino = "Destino" + v.getRota().getDestino();
+            String documento = "Documento" + u.getPassageiro().get(0).getCpf();
+            byte[] pdfBytes = pdfService.gerarPdfPassagem(nomePassageiro, Origem , documento,destino);
+            PassagemResponse r =  new PassagemResponse(
+             nomePassageiro,
+             documento,
+             Origem,
+            destino);
+            rabbitTemplate.convertAndSend(RabbitMqConfig.QUEUE_PASSAGEM, r);
+            System.out.println(">>>> [RABBITMQ] Mensagem de passagem enviada com sucesso para a fila! <<<<");
+        } catch (Exception e) {
+            System.err.println("Erro ao enviar mensagem para o RabbitMQ: " + e.getMessage());
+        }
+    }
+        }
+
