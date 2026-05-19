@@ -34,9 +34,11 @@ C:\Users\Celso\Desktop\transport\passagens-saas\src\main\java\com\example\transp
 C:\Users\Celso\Desktop\transport\passagens-saas\src\main\java\com\example\transport\service\IMPL\RotasServiceIMPL.java
 C:\Users\Celso\Desktop\transport\passagens-saas\src\main\java\com\example\transport\service\LocalidadeService.java
 C:\Users\Celso\Desktop\transport\passagens-saas\src\main\java\com\example\transport\response\RotasResponse.java
+C:\Users\Celso\Desktop\transport\passagens-saas\src\main\java\com\example\transport\service\IMPL\PdfServiceIMPL.java
 C:\Users\Celso\Desktop\transport\passagens-saas\src\main\java\com\example\transport\service\IMPL\AutenticationServiceIMPL.java
 C:\Users\Celso\Desktop\transport\passagens-saas\src\main\java\com\example\transport\entity\Role.java
 C:\Users\Celso\Desktop\transport\passagens-saas\src\main\java\com\example\transport\request\RotasRequest.java
+C:\Users\Celso\Desktop\transport\passagens-saas\src\main\java\com\example\transport\service\PdfService.java
 C:\Users\Celso\Desktop\transport\passagens-saas\src\main\java\com\example\transport\entity\Passagem.java
 C:\Users\Celso\Desktop\transport\passagens-saas\src\main\java\com\example\transport\service\IMPL\LocalidadeServiceIMPL.java
 C:\Users\Celso\Desktop\transport\passagens-saas\src\main\java\com\example\transport\request\TransportRequest.java
@@ -60,7 +62,9 @@ C:\Users\Celso\Desktop\transport\passagens-saas\src\main\java\com\example\transp
 C:\Users\Celso\Desktop\transport\passagens-saas\src\main\java\com\example\transport\response\TransportResponse.java
 C:\Users\Celso\Desktop\transport\passagens-saas\src\main\java\com\example\transport\service\IMPL\EmpresaServiceIMPL.java
 C:\Users\Celso\Desktop\transport\passagens-saas\src\main\java\com\example\transport\service\IMPL\CompraServiceIMPL.java
+C:\Users\Celso\Desktop\transport\passagens-saas\src\main\java\com\example\transport\config\EmailConsumer.java
 C:\Users\Celso\Desktop\transport\passagens-saas\src\main\java\com\example\transport\entity\StatusPagamento.java
 C:\Users\Celso\Desktop\transport\passagens-saas\src\main\java\com\example\transport\config\SecurityConfigurations.java
 C:\Users\Celso\Desktop\transport\passagens-saas\src\main\java\com\example\transport\service\TokenService.java
+C:\Users\Celso\Desktop\transport\passagens-saas\src\main\java\com\example\transport\config\RabbitMqConfig.java
 C:\Users\Celso\Desktop\transport\passagens-saas\src\main\java\com\example\transport\repository\CompraRepository.java

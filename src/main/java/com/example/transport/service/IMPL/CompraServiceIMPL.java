@@ -135,6 +135,7 @@ public class CompraServiceIMPL implements CompraService {
             byte[] pdfBytes = pdfService.gerarPdfPassagem(nomePassageiro, Origem , documento,destino);
             PassagemResponse r =  new PassagemResponse(
              nomePassageiro,
+                    u.getEmail(),
              documento,
              Origem,
             destino);

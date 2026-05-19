@@ -1,5 +1,6 @@
 package com.example.transport.config;
 
+import com.example.transport.entity.Role;
 import com.example.transport.entity.User;
 import com.example.transport.repository.UserRepository;
 import org.springframework.boot.CommandLineRunner;
@@ -12,14 +13,15 @@ public class AdmInitializer {
     @Bean
     public CommandLineRunner initDatabase(UserRepository userRepository, PasswordEncoder passwordEncoder){
         return args -> {
-            String adminEmail = "admin@email.com";
+            String adminEmail = "admin@admin.com";
             if(userRepository.findByEmail(adminEmail).isEmpty()){
                 User u = new User();
                 u.setEmail(adminEmail);
-                String hash = passwordEncoder.encode("admin123");
+                String hash = passwordEncoder.encode("admin");
                 u.setPassword(hash);
+                u.setRole(Role.ADMIN);
                 userRepository.save(u);
-                System.out.println(">>>> ADMIN PADRÃO CRIADO: admin@email.com / admin123 <<<<");
+                System.out.println(">>>> ADMIN PADRÃO CRIADO <<<<");
             }
         };
     }

@@ -1,6 +1,7 @@
 com\example\transport\request\EmpresaRequest.class
 com\example\transport\controller\LocalidadeController.class
 com\example\transport\service\LocalidadeService.class
+com\example\transport\service\IMPL\PdfServiceIMPL.class
 com\example\transport\request\TransportRequest.class
 com\example\transport\service\PassageiroService.class
 com\example\transport\entity\Role.class
@@ -9,6 +10,7 @@ com\example\transport\repository\ViagemRepository.class
 com\example\transport\entity\Transport.class
 com\example\transport\controller\RotasController.class
 com\example\transport\entity\StatusPagamento.class
+com\example\transport\service\PdfService.class
 com\example\transport\controller\EmpresaController.class
 com\example\transport\service\IMPL\EmpresaServiceIMPL.class
 com\example\transport\response\EmpresaResponse.class
@@ -38,6 +40,7 @@ com\example\transport\service\TokenService.class
 com\example\transport\request\LoginRequest.class
 com\example\transport\controller\PassageiroController.class
 com\example\transport\repository\TransportRepository.class
+com\example\transport\config\EmailConsumer.class
 com\example\transport\entity\Rotas.class
 com\example\transport\request\ViagemRequest.class
 com\example\transport\service\IMPL\LocalidadeServiceIMPL.class
@@ -49,6 +52,7 @@ com\example\transport\response\PassagemResponse.class
 com\example\transport\entity\Passageiro.class
 com\example\transport\entity\Viagem.class
 com\example\transport\config\AdmInitializer.class
+com\example\transport\config\RabbitMqConfig.class
 com\example\transport\config\SecurityConfigurations.class
 com\example\transport\response\PassageiroResponse.class
 com\example\transport\response\LoginResponse.class
