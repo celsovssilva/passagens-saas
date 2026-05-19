@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.validator.constraints.br.CPF;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -22,6 +23,7 @@ public class Passagem {
     private Integer quantidadeDeAssentos;
     private  Integer numeroAssentos;
     private String nomePassageiro;
+    @CPF(message = "CPF inválido")
     private String cpf;
 
     @ManyToOne

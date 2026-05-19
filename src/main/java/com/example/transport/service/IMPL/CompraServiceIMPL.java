@@ -2,10 +2,7 @@ package com.example.transport.service.IMPL;
 
 import com.example.transport.config.RabbitMqConfig;
 import com.example.transport.entity.*;
-import com.example.transport.repository.CompraRepository;
-import com.example.transport.repository.PassageiroRepository;
-import com.example.transport.repository.UserRepository;
-import com.example.transport.repository.ViagemRepository;
+import com.example.transport.repository.*;
 import com.example.transport.request.CompraRequest;
 import com.example.transport.response.CompraResponse;
 import com.example.transport.response.PassagemResponse;
@@ -34,6 +31,8 @@ public class CompraServiceIMPL implements CompraService {
     PdfService pdfService;
     @Autowired
     private RabbitTemplate rabbitTemplate;
+    @Autowired
+    PassagemRepository passagemRepository;
 
 
     @Transactional
@@ -44,17 +43,19 @@ public class CompraServiceIMPL implements CompraService {
 
         User comprador = userRepository.findById(compra.usuarioId())
                 .orElseThrow(()-> new RuntimeException("usuário não encontrado"));
+
         int quantidadeDePassagens = compra.passageiro().size();
         Double valorTotal = v.getRota().getValor() * quantidadeDePassagens;
+
         if(quantidadeDePassagens > v.getCapacidade()) {
             throw new RuntimeException("Não há assentos suficientes");
         }
+
         Compra compra1 = new Compra();
         compra1.setUser(comprador);
         compra1.setValor(valorTotal);
         compra1.setDataCompra(LocalDateTime.now());
         compra1.setMetodoPagamento(compra.metodo());
-
 
         List<Passagem> passagens = compra.passageiro().stream().map(p -> {
             Passagem passagem = new Passagem();
@@ -63,27 +64,28 @@ public class CompraServiceIMPL implements CompraService {
             passagem.setCompra(compra1);
             passagem.setViagem(v);
             passagem.setDataHoraDaCompra(LocalDateTime.now());
+
             return passagem;
         }).toList();
+
 
         compra1.setPassagens(passagens);
         compra1.setValor(v.getRota().getValor() * quantidadeDePassagens);
 
-
         if(compra.metodo() == MetodoPagamento.PIX){
-                compra1.setStatus(StatusPagamento.PENDENTE);
-                compra1.setPixCopiaECola("PIX-COPIA-COLA" + UUID.randomUUID());
+            compra1.setStatus(StatusPagamento.PENDENTE);
+            compra1.setPixCopiaECola("PIX-COPIA-COLA" + UUID.randomUUID());
         } else if (compra.metodo() == MetodoPagamento.CARTAO_CREDITO) {
             compra1.setStatus(StatusPagamento.APROVADO);
         }
+
         v.setCapacidade(v.getCapacidade() - quantidadeDePassagens);
         viagemRepository.save(v);
-
         Compra compra2 = compraRepository.save(compra1);
+        passagemRepository.saveAll(passagens);
         if (compra2.getStatus() == StatusPagamento.APROVADO) {
             dispararMensagem(compra2, v, comprador);
         }
-
         return new CompraResponse(compra2);
     }
 
@@ -128,17 +130,29 @@ public class CompraServiceIMPL implements CompraService {
     }
     private void dispararMensagem(Compra c, Viagem v, User u){
         try {
-            String nomePassageiro = c.getPassagens().isEmpty() ? "Cliente" : c.getPassagens().get(0).getNomePassageiro();
-            String Origem = "Origem: " + v.getRota().getOrigem();
-            String destino = "Destino" + v.getRota().getDestino();
-            String documento = "Documento" + u.getPassageiro().get(0).getCpf();
-            byte[] pdfBytes = pdfService.gerarPdfPassagem(nomePassageiro, Origem , documento,destino);
+
+            if(c.getPassagens() == null || c.getPassagens().isEmpty()){
+                System.out.println("sistema não possui passagens");
+                return;
+            }
+            Passagem passagemReal = c.getPassagens().get(0);
+            String nomePassageiro = passagemReal.getNomePassageiro();
+            String Origem = v.getRota().getOrigem();
+            String destino = v.getRota().getDestino();
+            String documento = passagemReal.getCpf();
+            Integer quantidadeDeAssentos= passagemReal.getQuantidadeDeAssentos();
+            LocalDateTime dataHoraDaCompra = passagemReal.getDataHoraDaCompra();
+            Integer numeroAssentos = passagemReal.getNumeroAssentos();
+            byte[] pdfBytes = pdfService.gerarPdfPassagem(nomePassageiro, Origem , documento,destino,quantidadeDeAssentos,dataHoraDaCompra,numeroAssentos);
             PassagemResponse r =  new PassagemResponse(
              nomePassageiro,
                     u.getEmail(),
              documento,
              Origem,
-            destino);
+            destino,
+                    quantidadeDeAssentos,
+                    dataHoraDaCompra,
+                    numeroAssentos);
             rabbitTemplate.convertAndSend(RabbitMqConfig.QUEUE_PASSAGEM, r);
             System.out.println(">>>> [RABBITMQ] Mensagem de passagem enviada com sucesso para a fila! <<<<");
         } catch (Exception e) {

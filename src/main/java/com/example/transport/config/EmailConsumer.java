@@ -33,7 +33,10 @@ public class EmailConsumer {
                     dados.nomePassageiro(),
                     dados.documento(),
                     dados.origem(),
-                    dados.Destino()
+                    dados.Destino(),
+                    dados.quantidadeDeAssentos(),
+                    dados.dataHoraDaCompra(),
+                    dados.numeroAssentos()
             );
 
 
@@ -48,7 +51,10 @@ public class EmailConsumer {
                     "Olá, %s!\n\nSua viagem de %s para %s está confirmada.\nSua passagem eletrônica está em anexo.",
                     dados.nomePassageiro(),
                     dados.origem(),
-                    dados.Destino()
+                    dados.Destino(),
+                    dados.numeroAssentos(),
+                    dados.quantidadeDeAssentos(),
+                    dados.dataHoraDaCompra()
             );
             helper.setText(corpoEmail);
 

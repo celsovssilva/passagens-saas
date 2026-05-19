@@ -2,12 +2,17 @@ package com.example.transport.response;
 
 import com.example.transport.entity.Passagem;
 
+import java.time.LocalDateTime;
+
 public record PassagemResponse(
         String nomePassageiro,
         String email,
         String documento,
         String origem,
-        String Destino
+        String Destino,
+        Integer quantidadeDeAssentos,
+        LocalDateTime dataHoraDaCompra,
+        Integer numeroAssentos
 ) {
     public PassagemResponse(Passagem passagem){
         this(
@@ -15,7 +20,10 @@ public record PassagemResponse(
                 passagem.getUser().getEmail(),
                 passagem.getCpf(),
                 passagem.getViagem().getRota().getOrigem(),
-                passagem.getViagem().getRota().getDestino()
+                passagem.getViagem().getRota().getDestino(),
+                passagem.getQuantidadeDeAssentos(),
+                passagem.getDataHoraDaCompra(),
+                passagem.getNumeroAssentos()
         );
     }
 
