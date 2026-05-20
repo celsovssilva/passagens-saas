@@ -64,6 +64,8 @@ public class CompraServiceIMPL implements CompraService {
             passagem.setCompra(compra1);
             passagem.setViagem(v);
             passagem.setDataHoraDaCompra(LocalDateTime.now());
+            passagem.setQuantidadeDeAssentos(p.quantidadeDeAssentos());
+            passagem.setNumeroAssentos(p.numeroAssentos());
 
             return passagem;
         }).toList();
@@ -135,26 +137,29 @@ public class CompraServiceIMPL implements CompraService {
                 System.out.println("sistema não possui passagens");
                 return;
             }
-            Passagem passagemReal = c.getPassagens().get(0);
-            String nomePassageiro = passagemReal.getNomePassageiro();
-            String Origem = v.getRota().getOrigem();
-            String destino = v.getRota().getDestino();
-            String documento = passagemReal.getCpf();
-            Integer quantidadeDeAssentos= passagemReal.getQuantidadeDeAssentos();
-            LocalDateTime dataHoraDaCompra = passagemReal.getDataHoraDaCompra();
-            Integer numeroAssentos = passagemReal.getNumeroAssentos();
-            byte[] pdfBytes = pdfService.gerarPdfPassagem(nomePassageiro, Origem , documento,destino,quantidadeDeAssentos,dataHoraDaCompra,numeroAssentos);
-            PassagemResponse r =  new PassagemResponse(
-             nomePassageiro,
-                    u.getEmail(),
-             documento,
-             Origem,
-            destino,
-                    quantidadeDeAssentos,
-                    dataHoraDaCompra,
-                    numeroAssentos);
-            rabbitTemplate.convertAndSend(RabbitMqConfig.QUEUE_PASSAGEM, r);
-            System.out.println(">>>> [RABBITMQ] Mensagem de passagem enviada com sucesso para a fila! <<<<");
+
+            for(Passagem passagemReal : c.getPassagens()){
+                String nomePassageiro = passagemReal.getNomePassageiro();
+                String Origem = v.getRota().getOrigem();
+                String destino = v.getRota().getDestino();
+                String documento = passagemReal.getCpf();
+                Integer quantidadeDeAssentos= passagemReal.getQuantidadeDeAssentos();
+                LocalDateTime dataHoraDaCompra = passagemReal.getDataHoraDaCompra();
+                Integer numeroAssentos = passagemReal.getNumeroAssentos();
+                byte[] pdfBytes = pdfService.gerarPdfPassagem(nomePassageiro, Origem , documento,destino,quantidadeDeAssentos,dataHoraDaCompra,numeroAssentos);
+                PassagemResponse r =  new PassagemResponse(
+                        nomePassageiro,
+                        u.getEmail(),
+                        documento,
+                        Origem,
+                        destino,
+                        quantidadeDeAssentos,
+                        dataHoraDaCompra,
+                        numeroAssentos);
+                rabbitTemplate.convertAndSend(RabbitMqConfig.QUEUE_PASSAGEM, r);
+                System.out.println(">>>> [RABBITMQ] Mensagem de passagem enviada com sucesso para a fila! <<<<");
+            }
+
         } catch (Exception e) {
             System.err.println("Erro ao enviar mensagem para o RabbitMQ: " + e.getMessage());
         }
