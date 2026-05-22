@@ -23,8 +23,8 @@ export class LoginComponent {
 
     // Mapeia os campos em português para o que o AuthService/Backend esperam (geralmente email e password)
     const dadosLogin = {
-      email: this.credenciais.login,
-      password: this.credenciais.senha
+      login: this.credenciais.login,
+      senha: this.credenciais.senha
     };
 
     this.authService.login(dadosLogin).subscribe({
