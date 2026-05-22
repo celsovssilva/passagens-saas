@@ -17,6 +17,7 @@ public class Passageiro {
     private Long Id;
     private String nome;
     private String sobrenome;
+    @Column(unique = true)
     private String cpf;
     private Integer idade;
     private String phone;

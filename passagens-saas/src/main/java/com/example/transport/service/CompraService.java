@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface CompraService {
     CompraResponse comprar(CompraRequest compra);
-    void excluir(Long id);
-    List<CompraResponse> historico(Long id);
+    List<CompraResponse> historico(Long userId);
     void confirmarPagamento(Long idCompra);
+    void cancelarCompra(Long compraId);
 }

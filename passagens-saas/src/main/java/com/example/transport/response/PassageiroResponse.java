@@ -13,7 +13,7 @@ public record PassageiroResponse(
         this(
                 p.getNome(),
                 p.getPhone(),
-                p.getUser().getEmail(),
+                p.getUser()!= null ? p.getUser().getEmail() : "email não encontrado" ,
                 p.getIdade()
         );
 

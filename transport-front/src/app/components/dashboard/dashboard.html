@@ -1,0 +1,23 @@
+<div class="dashboard-wrapper">
+  <h2>Bem-vindo ao Painel de Controle</h2>
+  <p>Seu perfil atual é: <strong>{{ auth.getRole() }}</strong></p>
+
+  <hr>
+
+  <div *ngIf="auth.isAdmin()" class="admin-section">
+    <h3>📊 Relatórios Globais (Apenas Admin)</h3>
+    <p>Visualizando métricas de todas as empresas e passageiros do sistema.</p>
+  </div>
+
+  <div *ngIf="auth.isEmpresa()" class="empresa-section">
+    <h3>🚌 Gerenciamento de Frotas e Rotas</h3>
+    <p>Aqui você pode cadastrar novos ônibus, motoristas e horários de viagens.</p>
+  </div>
+
+  <div *ngIf="auth.isPassageiro()" class="passageiro-section">
+    <h3>🎫 Minhas Passagens Compradas</h3>
+    <p>Visualize seus vouchers ativos e o histórico de viagens realizadas.</p>
+  </div>
+
+  <button (click)="auth.logout()" class="btn-logout">Sair do Sistema</button>
+</div>

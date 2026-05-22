@@ -1,49 +1,39 @@
 import { Component } from '@angular/core';
-import { RouterLink, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { AuthService } from '../../service/auth.service';
+import { AuthService } from '../../service/auth.service'; // Ajuste o caminho de pastas se necessário
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [RouterLink, CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule],
   templateUrl: './login.html',
   styleUrl: './login.css'
 })
 export class LoginComponent {
+  // Sincronizado com o [(ngModel)]="credenciais.login" e "credenciais.senha" do seu HTML
+  credenciais = { login: '', senha: '' };
+  errorMessage = '';
 
-  // Objeto idêntico ao 'LoginRequest' do seu record Java
-  credenciais = {
-    login: '',
-    senha: ''
-  };
+  constructor(private authService: AuthService) {}
 
-  constructor(private authService: AuthService, private router: Router) {}
-
+  // Sincronizado com o (ngSubmit)="executarLogin()" do seu HTML
   executarLogin() {
-    // Validação simples antes de enviar
-    if (!this.credenciais.login || !this.credenciais.senha) {
-      alert('Por favor, preencha todos os campos.');
-      return;
-    }
+    this.errorMessage = '';
 
-    this.authService.login(this.credenciais).subscribe({
-      next: (resposta: any) => {
-        alert('Login realizado com sucesso! 🎉');
-        console.log('Dados do login/Token retornados pelo Java:', resposta);
+    // Mapeia os campos em português para o que o AuthService/Backend esperam (geralmente email e password)
+    const dadosLogin = {
+      email: this.credenciais.login,
+      password: this.credenciais.senha
+    };
 
-        // 💾 Se o seu Java retorna um Token JWT, salvamos ele aqui:
-        if (resposta && resposta.token) {
-          localStorage.setItem('token', resposta.token);
-        }
-
-        // Redireciona para a página principal do sistema após o login
-        // this.router.navigate(['/dashboard']);
+    this.authService.login(dadosLogin).subscribe({
+      next: (response) => {
+        console.log('Login efetuado com sucesso!', response);
       },
-      error: (erro: any) => {
-        console.error('Erro ao tentar logar:', erro);
-        alert('Falha no login. Verifique seu usuário/senha ou o console.');
+      error: (err) => {
+        this.errorMessage = 'Credenciais inválidas. Verifique seu usuário e senha.';
+        console.error('Erro no login:', err);
       }
     });
   }

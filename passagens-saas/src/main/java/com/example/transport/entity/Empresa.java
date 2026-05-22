@@ -26,7 +26,7 @@ public class Empresa {
     private List<Transport> transporte;
     @OneToMany
     private List<Compra> compra;
-    @OneToMany
-    private List<User> user;
+    @ManyToOne
+    private User user;
 
 }
