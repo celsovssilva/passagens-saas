@@ -30,15 +30,15 @@ public class SecurityConfigurations {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception{
         return http
-                .cors(cors -> cors.configurationSource(corsConfigurationSource())) // 👈 ATIVA O CORS COM A NOSSA CONFIGURAÇÃO ABAIXO
+                .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .csrf(csrf -> csrf.disable())
                 .sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(req ->{
                   
                     req.requestMatchers(HttpMethod.POST,"api/auth/login").permitAll();
-                    req.requestMatchers(HttpMethod.POST,"api/empresa/cadastrar").permitAll(); // 👈 Liberado para novos cadastros
-                    req.requestMatchers(HttpMethod.POST,"api/passageiro/cadastrar").permitAll(); // 👈 Liberado para novos cadastros
-
+                    req.requestMatchers(HttpMethod.POST,"api/empresa/cadastrar").permitAll();
+                    req.requestMatchers(HttpMethod.POST,"api/passageiro/cadastrar").permitAll();
+                    req.requestMatchers("api/dashboard/estatisticas").hasRole("ADMIN");
                     req.requestMatchers(HttpMethod.POST,"api/compra/comprar").hasAnyRole("ADMIN","PASSAGEIRO");
                     req.requestMatchers(HttpMethod.PUT,"api/compra/atualizar/{idCompra}").hasAnyRole("ADMIN","PASSAGEIRO");
                     req.requestMatchers(HttpMethod.PATCH,"api/compra/{compraId}/cancelar").hasAnyRole("ADMIN","PASSAGEIRO");

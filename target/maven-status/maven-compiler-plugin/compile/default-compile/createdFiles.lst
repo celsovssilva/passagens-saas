@@ -47,6 +47,7 @@ com\example\transport\service\IMPL\LocalidadeServiceIMPL.class
 com\example\transport\repository\UserRepository.class
 com\example\transport\service\IMPL\TokenServiceIMPL.class
 com\example\transport\controller\ViagemController.class
+com\example\transport\controller\DashboardController.class
 com\example\transport\response\CompraResponse.class
 com\example\transport\response\PassagemResponse.class
 com\example\transport\entity\Passageiro.class
@@ -57,6 +58,7 @@ com\example\transport\config\SecurityConfigurations.class
 com\example\transport\response\PassageiroResponse.class
 com\example\transport\response\LoginResponse.class
 com\example\transport\response\CidadeIBGE.class
+com\example\transport\response\DashboardResponse.class
 com\example\transport\entity\User.class
 com\example\transport\response\RotasResponse.class
 com\example\transport\entity\Empresa.class
