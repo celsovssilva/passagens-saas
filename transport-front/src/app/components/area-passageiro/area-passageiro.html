@@ -1,0 +1,101 @@
+<div class="card search-card">
+  <div class="card-header">
+    <span class="icon">🔍</span>
+    <h3>Para onde você quer ir?</h3>
+  </div>
+
+  <div class="search-form">
+    <div class="input-group">
+      <label>Origem</label>
+      <input type="text" [(ngModel)]="busca.origem" placeholder="Ex: Maceió">
+    </div>
+    <div class="input-group">
+      <label>Destino</label>
+      <input type="text" [(ngModel)]="busca.destino" placeholder="Ex: Recife">
+    </div>
+    <button (click)="pesquisarRotas()" class="btn-search">Buscar Viagens</button>
+  </div>
+</div>
+
+<div *ngIf="rotasEncontradas.length > 0" class="results-section">
+  <h4 class="section-title">Viagens Disponíveis no Sistema</h4>
+
+  <div class="route-card" *ngFor="let viagem of rotasEncontradas">
+    <div class="route-main">
+      <div *ngIf="rotasEncontradas.length > 0" class="results-section">
+        <h4 class="section-title">Viagens Disponíveis no Sistema</h4>
+
+        <div class="route-card" *ngFor="let viagem of rotasEncontradas">
+          <div class="route-main">
+            <div class="route-info">
+              <span class="time">{{ viagem.horarioPartida || viagem.horario }}</span>
+              <p class="path">{{ viagem.origem || viagem.rota?.origem }} ➡️ {{ viagem.destino || viagem.rota?.destino }}</p>
+              <p class="company">Empresa Parceira: <strong>{{ viagem.empresa?.nomeFantasia || 'Transpôrt' }}</strong></p>
+            </div>
+      <div class="vehicle-info" *ngIf="viagem.transporte || viagem.veiculo">
+        <span class="badge-bus">🚌 {{ viagem.transporte?.modelo || 'Ônibus Padrão' }}</span>
+        <p>Placa: {{ viagem.transporte?.placa }}</p>
+        <p>Assentos Disponíveis: <strong class="text-success">{{ viagem.vagasDisponiveis || viagem.assentosDisponiveis }}</strong></p>
+      </div>
+
+      <div class="route-price-action">
+        <span class="price">R$ {{ (viagem.preco || viagem.valorPassagem) | number:'1.2-2' }}</span>
+        <button (click)="selecionarViagem(viagem)" class="btn-buy" [disabled]="viagem.vagasDisponiveis === 0">
+          {{ viagem.vagasDisponiveis === 0 ? 'Esgotado' : 'Comprar' }}
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="card history-card" style="margin-top: 30px;">
+  <div class="card-header">
+    <span class="icon">🎟️</span>
+    <h3>Minhas Passagens Compradas</h3>
+  </div>
+
+  <div *ngIf="historicoCompras.length === 0" class="empty-state">
+    <p>Você ainda não realizou nenhuma viagem. Que tal buscar um destino acima?</p>
+  </div>
+
+  <table class="data-table" *ngIf="historicoCompras.length > 0">
+    <thead>
+    <tr>
+      <th>ID Local</th>
+      <th>Destino</th>
+      <th>Horário</th>
+      <th>Status da Venda</th>
+      <th>Valor</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let compra of historicoCompras">
+      <td>#{{ compra.id }}</td>
+      <td>{{ compra.viagem?.rota?.destino }}</td>
+      <td>{{ compra.viagem?.horarioPartida }}</td>
+      <td><span class="status-badge" [ngClass]="compra.status?.toLowerCase()">{{ compra.status || 'CONFIRMADO' }}</span></td>
+      <td>R$ {{ compra.valorPago | number:'1.2-2' }}</td>
+    </tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="modal-overlay" *ngIf="viagemSelecionada">
+  <div class="modal-content">
+    <h3>Confirmar Reserva de Passagem 🎫</h3>
+    <hr>
+    <p><strong>Rota:</strong> {{ viagemSelecionada.rota?.origem }} para {{ viagemSelecionada.rota?.destino }}</p>
+    <p><strong>Embarque:</strong> {{ viagemSelecionada.horarioPartida }}</p>
+    <p><strong>Veículo:</strong> {{ viagemSelecionada.transporte?.modelo }} ({{ viagemSelecionada.transporte?.placa }})</p>
+
+    <div class="modal-total">
+      <span>Valor do Bilhete:</span>
+      <strong class="price-total">R$ {{ (viagemSelecionada.preco || viagemSelecionada.valorPassagem) | number:'1.2-2' }}</strong>
+    </div>
+
+    <div class="modal-actions">
+      <button (click)="viagemSelecionada = null" class="btn-cancel">Desistir</button>
+      <button (click)="finalizarCompra()" class="btn-confirm">Emitir Bilhete</button>
+    </div>
+  </div>
+</div>

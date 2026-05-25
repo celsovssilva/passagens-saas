@@ -1,59 +1,83 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Router } from '@angular/router';
-import { AuthService } from '../../service/auth.service'; // Ajuste o caminho de pastas se necessário
+import { AuthService } from '../../service/auth.service';
+import { AdminService } from '../../service/admin.service';
+import { AreaPassageiroComponent } from '../area-passageiro/area-passageiro';
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, AreaPassageiroComponent],
   templateUrl: './dashboard.html',
   styleUrl: './dashboard.css'
 })
 export class DashboardComponent implements OnInit {
+  usuarioLogado = { email: '', nome: '', role: '' };
+  telaAtiva: string = 'inicio';
 
-  usuarioLogado: any = { nome: '', role: '', email: '' };
-  viagensRecentes: any[] = [];
+  dadosGlobais = {
+    totalPassageiros: 0,
+    totalEmpresas: 0,
+    faturamentoHoje: 0
+  };
 
-  // O "public auth" garante que as funções .isAdmin(), .isEmpresa() funcionem no HTML
-  constructor(public router: Router, public auth: AuthService) {}
+  constructor(
+    public auth: AuthService,
+    private adminService: AdminService,
+    private cdr: ChangeDetectorRef // Injetado para forçar a atualização dos cards
+  ) {}
 
   ngOnInit() {
+    this.carregarDadosUsuario();
+
+    // Se for ADMIN, busca as métricas com um pequeno delay seguro
+    if (this.usuarioLogado.role === 'ADMIN') {
+      setTimeout(() => {
+        this.carregarMetricasBanco();
+      }, 100);
+    }
+  }
+
+  definirTela(tela: string) {
+    this.telaAtiva = tela;
+  }
+
+  carregarDadosUsuario() {
     const token = this.auth.getToken();
+    if (token) {
+      try {
+        const base64Url = token.split('.')[1];
+        const jsonPayload = decodeURIComponent(window.atob(base64Url.replace(/-/g, '+').replace(/_/g, '/')).split('').map(c => {
+          return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+        }).join(''));
 
-    if (!token) {
-      alert('Acesso negado. Por favor, faça o login primeiro! 🔒');
-      this.auth.logout();
-      return;
+        const payload = JSON.parse(jsonPayload);
+
+        this.usuarioLogado.email = payload.sub || '';
+        this.usuarioLogado.nome = payload.nome || 'Administrador';
+        this.usuarioLogado.role = payload.role || '';
+      } catch (error) {
+        console.error('Erro ao decodificar o token JWT:', error);
+      }
     }
+  }
 
-    try {
-      // 🚀 Decodificação nativa de JWT com JS Puro
-      const base64Url = token.split('.')[1];
-      const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-      const jsonPayload = decodeURIComponent(window.atob(base64).split('').map(function(c) {
-        return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
-      }).join(''));
+  carregarMetricasBanco() {
+    this.adminService.getEstatisticasGlobais().subscribe({
+      next: (dados) => {
+        if (dados) {
+          this.dadosGlobais.totalPassageiros = dados.totalPassageiros;
+          this.dadosGlobais.totalEmpresas = dados.totalEmpresas;
+          this.dadosGlobais.faturamentoHoje = dados.faturamentoHoje;
 
-      const tokenDecodificado = JSON.parse(jsonPayload);
-      console.log('Dados do Token Real:', tokenDecodificado);
-
-      // Extrai o papel (role) do token para sincronizar com o localStorage
-      const userRole = tokenDecodificado.role || tokenDecodificado.roles || 'PASSAGEIRO';
-
-      this.usuarioLogado = {
-        nome: tokenDecodificado.nome || 'Usuário Autenticado',
-        email: tokenDecodificado.sub || tokenDecodificado.email || 'E-mail não encontrado',
-        role: String(userRole).toUpperCase()
-      };
-
-      // Alinha o role lido do token direto com o localStorage por consistência
-      localStorage.setItem('role', this.usuarioLogado.role);
-
-    } catch (error) {
-      console.error('Erro ao ler token real:', error);
-      this.auth.logout();
-    }
+          // Força o Angular a renderizar os novos valores na tela imediatamente
+          this.cdr.detectChanges();
+        }
+      },
+      error: (err) => {
+        console.error('Não foi possível carregar os dados globais:', err);
+      }
+    });
   }
 
   logout() {
